@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PostagemController {
 
-	@Autowired
+	@Autowired //injeção de dependências
 	private PostagemRepository postagemRepository;
 
 	@GetMapping
@@ -40,7 +40,8 @@ public class PostagemController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> getById(@PathVariable Long id) {
-		return postagemRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
+		return postagemRepository.findById(id)
+				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
