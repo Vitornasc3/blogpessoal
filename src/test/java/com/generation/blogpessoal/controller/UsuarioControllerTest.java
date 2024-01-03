@@ -120,8 +120,6 @@ public class UsuarioControllerTest {
 	@DisplayName("😀 Buscar usuário por ID")
 	public void deveBuscarUsuarioPorId() {
 
-		/* Corpo da Requisição */
-
 		Optional<Usuario> usuarioCadastrado = usuarioService
 				.cadastrarUsuario(new Usuario(0L, "Carlos Eduardo", "carlos@email.com", "12345678", ""));
 
@@ -138,10 +136,13 @@ public class UsuarioControllerTest {
 	@DisplayName("😀 Autenticar usuário")
 	public void deveAutenticarUsuario() {
 
-		usuarioService.cadastrarUsuario(new Usuario(0L, "Micaias", "micas@email.com", "12345678", ""));
+		Optional<Usuario> usuarioAutenticado = usuarioService
+				.cadastrarUsuario(new Usuario(0L, "Micaias", "micas@email.com", "11121314", ""));
 
-		UsuarioLogin usuarioLogin = new UsuarioLogin(0L, "Micaias", "micas@email.com", "12345678", "", "");
-		
+		UsuarioLogin usuarioLogin = new UsuarioLogin();
+		usuarioLogin.setUsuario(usuarioAutenticado.get().getUsuario());
+		usuarioLogin.setSenha("11121314");
+
 		/* Corpo da Requisição */
 
 		HttpEntity<UsuarioLogin> corpoRequisicao = new HttpEntity<UsuarioLogin>(usuarioLogin);
