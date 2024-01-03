@@ -66,12 +66,12 @@ public class UsuarioControllerTest {
 		usuarioService.cadastrarUsuario(new Usuario(0L, "Amanda Tsai", "amanda@email.com.br", "12345678", ""));
 
 		/* Corpo da Requisição */
-		
+
 		HttpEntity<Usuario> corpoRequisicao = new HttpEntity<Usuario>(
 				new Usuario(0L, "Amanda Tsai", "amanda@email.com.br", "12345678", ""));
 
 		/* Requisição Http */
-		
+
 		ResponseEntity<Usuario> corpoResposta = testRestTemplate.exchange("/usuarios/cadastrar", HttpMethod.POST,
 				corpoRequisicao, Usuario.class);
 
@@ -87,12 +87,12 @@ public class UsuarioControllerTest {
 				.cadastrarUsuario(new Usuario(0L, "Kendal Katherine", "kendalk@email.com.br", "12345678", ""));
 
 		/* Corpo da Requisição */
-		
+
 		HttpEntity<Usuario> corpoRequisicao = new HttpEntity<Usuario>(new Usuario(usuarioCadastrado.get().getId(),
 				"Kendal Katherine Correia", "kendalk@email.com.br", "87654321", ""));
 
 		/* Requisição Http */
-		
+
 		ResponseEntity<Usuario> corpoResposta = testRestTemplate.withBasicAuth("root@root.com", "rootroot")
 				.exchange("/usuarios/atualizar", HttpMethod.PUT, corpoRequisicao, Usuario.class);
 
@@ -108,7 +108,7 @@ public class UsuarioControllerTest {
 		usuarioService.cadastrarUsuario(new Usuario(0L, "Samara Almeida", "samara@email.com.br", "12345678", ""));
 
 		/* Requisição Http */
-		
+
 		ResponseEntity<String> corpoResposta = testRestTemplate.withBasicAuth("root@root.com", "rootroot")
 				.exchange("/usuarios", HttpMethod.GET, null, String.class);
 
@@ -117,40 +117,40 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	@DisplayName("😀 Listar usuário por ID")
-	public void deveListarUsuarioPorId() {
+	@DisplayName("😀 Buscar usuário por ID")
+	public void deveBuscarUsuarioPorId() {
 
 		/* Corpo da Requisição */
-		
+
 		Optional<Usuario> usuarioCadastrado = usuarioService
 				.cadastrarUsuario(new Usuario(0L, "Carlos Eduardo", "carlos@email.com", "12345678", ""));
 
 		/* Requisição HTTP */
-		
+
 		ResponseEntity<String> corpoResposta = testRestTemplate.withBasicAuth("root@root.com", "rootroot")
 				.exchange("/usuarios/" + usuarioCadastrado.get().getId(), HttpMethod.GET, null, String.class);
 
 		assertEquals(HttpStatus.OK, corpoResposta.getStatusCode());
 
 	}
-	
+
 	@Test
 	@DisplayName("😀 Autenticar usuário")
 	public void deveAutenticarUsuario() {
-				
-		usuarioService.cadastrarUsuario(new Usuario(0L, "Micaias", "micas@email.com", "12345678", "1"));
+
+		usuarioService.cadastrarUsuario(new Usuario(0L, "Micaias", "micas@email.com", "12345678", ""));
+
+		UsuarioLogin usuarioLogin = new UsuarioLogin(0L, "Micaias", "micas@email.com", "12345678", "", "");
 		
 		/* Corpo da Requisição */
-		
-		UsuarioLogin usuarioLogin = new UsuarioLogin(0L, "Micaias", "micas@email.com", "12345678", "1", "");
-				
+
 		HttpEntity<UsuarioLogin> corpoRequisicao = new HttpEntity<UsuarioLogin>(usuarioLogin);
-		
+
 		/* Requisição HTTP */
-		
-		ResponseEntity<UsuarioLogin> corpoResposta = testRestTemplate
-				.exchange("/usuarios/logar", HttpMethod.POST, corpoRequisicao, UsuarioLogin.class);
-		
+
+		ResponseEntity<UsuarioLogin> corpoResposta = testRestTemplate.exchange("/usuarios/logar", HttpMethod.POST,
+				corpoRequisicao, UsuarioLogin.class);
+
 		assertEquals(HttpStatus.OK, corpoResposta.getStatusCode());
 	}
 
